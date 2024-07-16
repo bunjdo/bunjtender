@@ -1,18 +1,18 @@
 import {useNavigate, useSearchParams} from "react-router-dom";
 import NotFound from "./notFound";
-import React, {useContext, useMemo, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import {ThemeProvider} from "@mui/material/styles";
 import {theme} from "../components/theme";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import MenuAppBar from "../components/appbar";
-import {findOrderById, getOrders, updateOrder} from "../data/storage";
+import {OrdersStorage} from "../data/storage";
 import {OrderCard} from "../components/orders";
 import {FirebaseServiceContext} from "../index";
 import {
     getNextMessagePayloadType,
     getNextOrderStatus,
-    getOrderActionName,
+    getOrderActionName, getOrderNotification,
     MessagePayloadType,
     Order, OrderStatus
 } from "../data/order";
@@ -38,19 +38,21 @@ function ChangeOrderButton(props: {order: Order}) {
         return (<Box />);
     }
 
-    const updateStatus = () => {
+    const updateStatus = async () => {
         setConfirmationDialogOpen(false);
+        const updatedOrder = {
+            ...props.order,
+            status: getNextOrderStatus(props.order) as OrderStatus
+        };
         firebaseService?.send(
             firebaseService?.clientTopic,
             {
                 type: getNextMessagePayloadType(props.order) as MessagePayloadType,
-                order_id: props.order.id,
-            }
+                orderId: props.order.id,
+            },
+            getOrderNotification(updatedOrder, firebaseService?.isBartender),
         )
-        updateOrder({
-            ...props.order,
-            status: getNextOrderStatus(props.order) as OrderStatus
-        });
+        await new OrdersStorage().update(updatedOrder);
         setOkDialogOpen(true);
     };
     const onStatusUpdatedOk = () => {
@@ -122,18 +124,18 @@ function OrderItemCard(props: {item: MenuItem}) {
 export default function OrderScreen() {
     const [searchParams] = useSearchParams();
     const firebaseService = useContext(FirebaseServiceContext);
-    console.log(firebaseService);
-    console.log(firebaseService?.isBartender);
-    const order = useMemo(() => {
-        const orders = getOrders();
-        return findOrderById(orders, searchParams.get("id") || "");
+    const [order, setOrder] = useState<Order | null | undefined>(null);
+
+    useEffect(() => {
+        new OrdersStorage().get(searchParams.get("id") || "").then(setOrder);
     }, [searchParams]);
+
     const item = useMemo(() => {
         if (!order || !(order.itemId in menuItems)) return null;
         return menuItems[order.itemId];
     }, [order]);
 
-    if (order === null) {
+    if (order === undefined) {
         return <NotFound />;
     }
 
@@ -142,11 +144,11 @@ export default function OrderScreen() {
             <CssBaseline />
             <Box sx={{ pt: 7 + 4, pb: 2 }}>
                 <MenuAppBar showDrawer={false}></MenuAppBar>
-                <OrderCard order={order} disabled />
+                {order && <OrderCard order={order} disabled />}
             </Box>
-            {Object.keys(order.extras).length > 0 && <OrderExtrasCard order={order} />}
-            {firebaseService?.isBartender && item && <OrderItemCard item={item} />}
-            {firebaseService?.isBartender && <ChangeOrderButton order={order} />}
+            {order && Object.keys(order.extras).length > 0 && <OrderExtrasCard order={order} />}
+            {order && firebaseService?.isBartender && item && <OrderItemCard item={item} />}
+            {order && firebaseService?.isBartender && <ChangeOrderButton order={order} />}
         </ThemeProvider>
     );
 }

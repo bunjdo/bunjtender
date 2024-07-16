@@ -88,7 +88,7 @@ export default function MenuAppBar(
                     {firebaseService?.isBartender ? <Liquor /> : <LocalBar />}
                 </IconButton>
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {firebaseService?.isBartender ? "Bunjtender admin" : "Bunjtender"}
+                    {firebaseService?.isBartender ? "bunjTender admin" : "bunjTender"}
                 </Typography>
                 <div>
                     <IconButton

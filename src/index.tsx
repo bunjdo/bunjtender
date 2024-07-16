@@ -7,7 +7,7 @@ import {BrowserRouter, Route, Routes, useLocation, useNavigate, useSearchParams}
 import SignUp from "./screens/signup";
 import NotFound from "./screens/notFound";
 import MenuItemScreen from "./screens/menuItem";
-import {onMessageData, useTopic, useUsername} from "./data/storage";
+import {OrdersStorage, useTopic, useUsername} from "./data/storage";
 import NoTopic from "./screens/noTopic";
 import {FirebaseService} from "./services/firebase";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Snackbar} from "@mui/material";
@@ -17,8 +17,12 @@ import {MessageData, getOrderNotification} from "./data/order";
 import {useAudio} from "./services/audio";
 import OrderScreen from "./screens/order";
 
+try {
+    registerServiceWorker();
+} catch (e) {
+    console.error(e);
+}
 
-registerServiceWorker();
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement
 );
@@ -35,25 +39,36 @@ function App(props: {children: ReactElement}): ReactElement {
     const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
     const [, setPlaying] = useAudio("/notification.mp3");
 
-    const firebaseService: FirebaseService = useMemo(() => new FirebaseService(topic), []);
+    const firebaseService: FirebaseService | null = useMemo(() => {
+        try {
+            return new FirebaseService(topic);
+        } catch (e) {
+            console.error(e);
+        }
+        return null;
+    }, [topic]);
     const onMessageCallback = useCallback(async (message: MessagePayload) => {
         if (!message.data?.json) return;
-        const order = onMessageData(
+        const order = await new OrdersStorage().onMessage(
             JSON.parse(message.data.json) as MessageData,
-            firebaseService.isBartender,
+            firebaseService?.isBartender || false,
         );
         if (!order) return;
 
-        const notification = getOrderNotification(order, firebaseService.isBartender);
+        const notification = getOrderNotification(order, firebaseService?.isBartender || false);
         setSnackbarMessage(`${notification.title}\n${notification.body}`);
         setPlaying(true);
 
-        if (order.status === "confirmed" && firebaseService.isBartender) {
+        if (order.status === "confirmed" && firebaseService?.isBartender) {
             const data: MessageData = {
-                type: "order_received",
-                order_id: order.id,
+                type: "order_confirmed",
+                orderId: order.id,
             };
-            await firebaseService.send(firebaseService.clientTopic, data);
+            await firebaseService.send(
+                firebaseService.clientTopic,
+                data,
+                getOrderNotification(order, firebaseService.isBartender),
+            );
         }
     }, [firebaseService, setPlaying])
 
@@ -79,22 +94,21 @@ function App(props: {children: ReactElement}): ReactElement {
             return navigate("/");
         }
 
-        firebaseService.setOnMessageCallback(onMessageCallback);
-        if (firebaseService.isNotificationPermissionsGranted() && !firebaseService.isSetupNotificationsExecuted) {
+        firebaseService?.setOnMessageCallback(onMessageCallback);
+        if (firebaseService?.isNotificationPermissionsGranted() && !firebaseService.isSetupNotificationsExecuted) {
             firebaseService.setupNotifications().then();
         }
 
-        if (!firebaseService.isNotificationPermissionsGranted()) {
+        if (!firebaseService?.isNotificationPermissionsGranted()) {
             setNotificationDialogOpen(true);
         }
     }, [firebaseService, location, name, navigate, onMessageCallback, searchParams, setName, setTopic, topic]);
 
     const onNotificationsDialogOk = async () => {
-        await firebaseService.setupNotifications();
-        if (firebaseService.isNotificationPermissionsGranted()) {
-            firebaseService.setOnMessageCallback(onMessageCallback);
-            setNotificationDialogOpen(false);
+        if (!firebaseService?.isNotificationPermissionsGranted()) {
+            await firebaseService?.setupNotifications();
         }
+        setNotificationDialogOpen(false);
     };
 
     return <FirebaseServiceContext.Provider value={firebaseService}>

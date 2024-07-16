@@ -28,11 +28,11 @@ import {
 import {FeatureIcon} from "../components/icons";
 import {Add} from "@mui/icons-material";
 import {FirebaseServiceContext} from "../index";
-import {Order, MessageData} from "../data/order";
-import {deleteOrderById, saveOrder, useUsername} from "../data/storage";
+import {Order, MessageData, getOrderNotification} from "../data/order";
+import {OrdersStorage, useUsername} from "../data/storage";
 import {generateUUID} from "../data/uuid";
 import Button from "@mui/material/Button";
-import {Events} from "../services/events";
+import {delay, Events} from "../services/events";
 import NotFound from "./notFound";
 
 
@@ -170,26 +170,20 @@ function CreateOrderButton(props: {item: MenuItem, states: MenuItemExtrasState})
     useEffect(() => {
         const onOrder = (event: any) => {
             console.log(event);
-            if (creating && event.detail && event.detail.id === orderId.current) {
+            if (
+                isCreating.current
+                && event.detail
+                && event.detail.status
+                && event.detail.id === orderId.current
+                && event.detail.status === "confirmed"
+            ) {
                 setCreating(false);
                 setCreated(true);
             }
         };
         Events.subscribe("order", onOrder);
         return () => Events.unsubscribe("order", onOrder);
-    }, [creating]);
-
-    const orderConfirmationTimeout = () => {
-        console.log("Order confirmation timeout");
-        if (isCreating.current) {
-            setCreating(false);
-            setFailed(true);
-            setButtonDisabled(false);
-            console.log("Deleting unconfirmed order: ", orderId.current);
-            if (orderId.current) deleteOrderById(orderId.current);
-            orderId.current = null;
-        }
-    };
+    }, []);
 
     const onOrderConfirmed = async () => {
         setButtonDisabled(true);
@@ -198,11 +192,11 @@ function CreateOrderButton(props: {item: MenuItem, states: MenuItemExtrasState})
         const extras: Record<string, string | string[]> = Object.assign(
             {},
             ...Object.entries(props.states).map(([name, [state, _]]) => {
-                let processedState: string | string[] = "";
+                let processedState: string | string[];
                 if (typeof state == "string") {
                     processedState = state as string;
                 } else {
-                    processedState = Object.entries(state as Record<string, boolean>).filter(([name, selected]) => selected).map(
+                    processedState = Object.entries(state as Record<string, boolean>).filter(([, selected]) => selected).map(
                         ([value, _]) => value
                     );
                 }
@@ -216,17 +210,29 @@ function CreateOrderButton(props: {item: MenuItem, states: MenuItemExtrasState})
             name: props.item.name,
             extras: extras,
             status: "new",
+            createdAt: Date.now(),
         }
         const data: MessageData = {
             type: "new_order",
             order: order,
         };
-        saveOrder(order);
+        await new OrdersStorage().add(order);
+        const notification = getOrderNotification(order, firebaseService!.isBartender);
         orderId.current = order.id;
         Events.trigger("order", order);
-        console.log("Sending message: ", data);
-        await firebaseService!.send(firebaseService!.getTopicToSend(), data);
-        setTimeout(orderConfirmationTimeout, 20000);
+        console.log("Sending message: ", data, notification);
+        await firebaseService!.send(firebaseService!.getTopicToSend(), data, notification);
+
+        await delay(20000);
+        if (isCreating.current) {
+            console.log("Order confirmation timeout");
+            setCreating(false);
+            setFailed(true);
+            setButtonDisabled(false);
+            console.log("Deleting unconfirmed order: ", orderId.current);
+            if (orderId.current) await new OrdersStorage().delete(orderId.current);
+            orderId.current = null;
+        }
     };
 
     return (<div>

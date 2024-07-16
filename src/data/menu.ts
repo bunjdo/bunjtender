@@ -26,9 +26,9 @@ export const menu: Menu = {
         {
             id: "01908b77-db90-792b-8fde-91b9ea9e06c0",
             name: "Vegetarian stew",
-            imageUrl: null,
-            shortDescription: "Vegetarian stew",
-            longDescription: "Vegetarian stew",
+            imageUrl: "/img/food/stew.jpg",
+            shortDescription: "",
+            longDescription: "",
             extras: {
                 "checklist": {
                     name: "Checklist",
@@ -47,19 +47,76 @@ export const menu: Menu = {
                 },
             },
             features: ["spicy", "vegetarian"],
+            disabled: true,
         },
         {
-            id: "01908b77-db90-792b-8fde-91b9ea9e06c1",
-            name: "stew",
+            id: "b5070e42-918e-44a8-b459-04a9c690e707",
+            name: "Vegetarian stew",
+            imageUrl: "/img/food/stew.jpg",
+            shortDescription: "",
+            longDescription: "mushrooms, potatoes, carrots, tomatoes, celery, beer",
+            extras: {},
+            features: ["vegetarian"],
+        },
+    ],
+    "Soft drinks": [
+        {
+            id: "fd12fa88-0ae8-4709-952d-d59bc99bc146",
+            name: "Water",
             imageUrl: null,
-            shortDescription: "Vegetarian stew",
-            longDescription: "Vegetarian stew",
+            shortDescription: "Still water",
+            longDescription: "",
+            extras: {},
+            features: [],
+        },
+        {
+            id: "63ee7119-664e-42aa-98c5-25d4fa7a6c42",
+            name: "Soda water",
+            imageUrl: null,
+            shortDescription: "",
+            longDescription: "",
+            extras: {},
+            features: [],
+        },
+        {
+            id: "187ef274-6610-4640-9dec-aa5c556b8e23",
+            name: "Coke",
+            imageUrl: null,
+            shortDescription: "",
+            longDescription: "",
             extras: {},
             features: [],
         },
     ],
-    "Soft drinks": [],
-    "Wine & Beer": [],
+    "Wine & Beer": [
+        {
+            id: "1a3a5799-d389-474b-a137-131bb96321d6",
+            name: "Beer",
+            imageUrl: "/img/beverages/beer.jpg",
+            shortDescription: "Bottled beer",
+            longDescription: "",
+            extras: {},
+            features: [],
+        },
+        {
+            id: "0c600425-ba10-4b54-8071-23897cc6cddd",
+            name: "White wine",
+            imageUrl: "/img/beverages/white-wine.jpg",
+            shortDescription: "",
+            longDescription: "",
+            extras: {},
+            features: [],
+        },
+        {
+            id: "24e32caa-afb4-4d8f-9970-00c7e5b902fd",
+            name: "Red wine",
+            imageUrl: "/img/beverages/red-whine.jpg",
+            shortDescription: "",
+            longDescription: "",
+            extras: {},
+            features: [],
+        },
+    ],
     "Mocktails": [
         {
             id: "65aedfcf-73d0-4787-b610-97224b1b1990",
@@ -82,15 +139,34 @@ top up with extra ale if needed, serve with cherry`,
             id: "13ca7ed9-d831-4c91-818b-d069d2d1d187",
             name: "Virgin mojito",
             imageUrl: "/img/cocktails/mojito.webp",
-            shortDescription: "Signature cocktail for pussies",
+            shortDescription: "Non-alcoholic long drink",
             longDescription: "soda water, sugar, lime, mint",
             recipe: `
 soda water
 1 tbsp sugar
-small bunch mint
+mint
 1/2 lime
 
 mud sugar, lime and mint in glass, put ice and cover with soda, stir`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "79165b67-b74d-4027-a32c-a39137616e46",
+            name: "Virgin Mary",
+            imageUrl: "/img/cocktails/bloody-mary.webp",
+            shortDescription: "Long drink",
+            longDescription: "tomato juice, spices",
+            recipe: `
+1 tsp salt
+120ml tomato juice
+10ml lemon juice
+2 dashes Tabasco sauce
+2 dashes Worcestershire sauce
+1 pinch ground black pepper
+1 pinch smoked paprika 
+
+shake & serve over ice`,
             extras: {},
             features: [],
         },
@@ -100,7 +176,7 @@ mud sugar, lime and mint in glass, put ice and cover with soda, stir`,
             id: "5123d586-b55e-4b7e-89eb-5a9483f06d03",
             name: "Winter whiskey sour",
             imageUrl: "/img/cocktails/winter-whisky-sour.webp",
-            shortDescription: "Strong, on the rocks",
+            shortDescription: "On the rocks",
             longDescription: "whiskey, lemon juice, orange juice, sugar syrup",
             recipe: `
 50ml whiskey
@@ -117,7 +193,7 @@ shake, strain, serve over crushed ice`,
             id: "94247166-0798-4e69-8c31-5c316aa3460e",
             name: "Daiquiri",
             imageUrl: "/img/cocktails/daiquiri.webp",
-            shortDescription: "Strong, on the rocks",
+            shortDescription: "On the rocks",
             longDescription: "white rum, lime juice, sugar syrup",
             recipe: `
 50ml white rum
@@ -139,7 +215,7 @@ shake, strain, serve with lime slice on the side`,
 soda water
 60ml white rum
 1 tbsp sugar
-small bunch mint
+mint
 1/2 lime
 
 mud sugar, lime and mint in glass, put ice with rum and cover with soda, stir`,
@@ -212,6 +288,26 @@ pour & stir over ice`,
             features: [],
         },
         {
+            id: "79165b67-b74d-4027-a32c-a39137616e46",
+            name: "Bloody Mary",
+            imageUrl: "/img/cocktails/bloody-mary.webp",
+            shortDescription: "Long drink",
+            longDescription: "vodka, tomato juice, spices",
+            recipe: `
+1 tsp salt
+50ml vodka
+120ml tomato juice
+10ml lemon juice
+2 dashes Tabasco sauce
+2 dashes Worcestershire sauce
+1 pinch ground black pepper
+1 pinch smoked paprika 
+
+shake & serve over ice`,
+            extras: {},
+            features: [],
+        },
+        {
             id: "6e3c5c41-755a-4ee9-89b5-80f30ffde9d9",
             name: "Margarita",
             imageUrl: "/img/cocktails/margarita.webp",
@@ -261,6 +357,39 @@ half of slice of orange for garnish
 pour grenadine into glass base, add ice
 shake everything and strain into glass
 add orange slice & ice/orange juice till full`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "23d61d48-f805-4a1c-91a9-fc5f37431d39",
+            name: "G&T",
+            imageUrl: "/img/cocktails/gin-and-tonic.webp",
+            shortDescription: "Long drink",
+            longDescription: "gin, tonic water",
+            recipe: `
+50ml gin
+tonic water
+lime slice, to garnish
+
+pour & stir over ice`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "1152e524-137c-421a-a9e2-66cd460378d1",
+            name: "Tom Collins",
+            imageUrl: "/img/cocktails/gin-fizz.jpeg",
+            shortDescription: "Long drink",
+            longDescription: "gin, lemon juice, soda water",
+            recipe: `
+50ml gin
+30ml lemon juice
+10ml sugar sirup
+60ml soda water
+Lemon slice, to serve
+Mint sprig, to serve
+
+pour & stir over ice`,
             extras: {},
             features: [],
         },

@@ -1,35 +1,37 @@
 export type OrderStatus = "new" | "confirmed" | "ready" | "done";
 
 export interface Order {
-    username: string;
     id: string;
-    itemId: string;
     name: string;
+    username: string;
+    itemId: string;
     extras: Record<string, string | string[]>;
     status: OrderStatus;
+    createdAt: number;
 }
 
-export type MessagePayloadType = "new_order" | "order_received" | "order_ready" | "order_done";
+export type MessagePayloadType = "new_order" | "order_confirmed" | "order_ready" | "order_done";
 
 export interface MessageData {
     type: MessagePayloadType;
     order?: Order;
-    order_id?: string;
+    orderId?: string;
 }
 
 export interface NotificationData {
     title: string;
     body: string;
+    image: string;
 }
 
 export function getOrderNotification(order: Order, isBartender: boolean): NotificationData {
     let status = order.status;
     if (isBartender && status === "confirmed") status = "new";
     switch (status) {
-        case "new": return {title: "New order", body: `${order.name} for ${order.username}`};
-        case "confirmed": return {title: "Order confirmed", body: `${order.name} for ${order.username} is confirmed`};
-        case "ready": return {title: "Order is ready", body: `${order.name} for ${order.username} is ready`};
-        case "done": return {title: "Order was picked up", body: `${order.name} for ${order.username} was picked up`};
+        case "new": return {title: "New order", body: `${order.name} for ${order.username}`, image: "/notification.icon.png"};
+        case "confirmed": return {title: "Order confirmed", body: `${order.name} for ${order.username} is confirmed`, image: "/notification.icon.png"};
+        case "ready": return {title: "Order is ready", body: `${order.name} for ${order.username} is ready`, image: "/notification.icon.png"};
+        case "done": return {title: "Order was picked up", body: `${order.name} for ${order.username} was picked up`, image: "/notification.icon.png"};
     }
 }
 
@@ -53,7 +55,7 @@ export function getOrderActionName(order: Order): string {
 
 export function getNextMessagePayloadType(order: Order): MessagePayloadType | null {
     switch (order.status) {
-        case "new": return "order_received";
+        case "new": return "order_confirmed";
         case "confirmed": return "order_ready";
         case "ready": return "order_done";
         case "done": return null;

@@ -11,7 +11,7 @@ import Container from '@mui/material/Container';
 import {ThemeProvider} from '@mui/material/styles';
 import {useState} from "react";
 import {theme} from "../components/theme";
-import {useUsername} from "../data/storage";
+import {OrdersStorage, useUsername} from "../data/storage";
 import {useNavigate} from "react-router-dom";
 
 export default function SignUp() {
@@ -19,11 +19,12 @@ export default function SignUp() {
     const [, setUsername] = useUsername();
     let navigate = useNavigate();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const name = new FormData(event.currentTarget).get('name');
         if (name) {
             setUsername(name.toString());
+            await new OrdersStorage().clear();
             navigate("/");
         } else {
             setNameError(true);

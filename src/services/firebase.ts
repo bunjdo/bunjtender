@@ -15,6 +15,10 @@ const firebaseConfig = {
     measurementId: "G-W8BC2CFYSK"
 };
 
+export interface IFirebaseService {
+
+}
+
 export class FirebaseService {
     topic: string = "";
 
@@ -126,7 +130,7 @@ export class FirebaseService {
     async send(topic: string, data: MessageData, notification?: NotificationData): Promise<any> {
         const dataString = JSON.stringify(data);
         let response = await this.sendFirebaseFunction(
-            {topic, notification, data: {json: dataString}}
+            {topic: topic, notification: notification, data: {json: dataString}}
         )
         return response.data;
     }

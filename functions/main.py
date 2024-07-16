@@ -29,7 +29,7 @@ def send(request: https_fn.CallableRequest) -> dict:
         messaging.Message(
             topic=topic,
             data=data,
-            notification=notification,
+            notification=messaging.Notification(**notification) if notification else None,
         )
     )
     return {"status": "OK"}

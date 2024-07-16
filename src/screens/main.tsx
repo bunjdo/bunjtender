@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
@@ -12,16 +12,21 @@ import {ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {theme} from "../components/theme";
 import {OrdersList} from "../components/orders";
-import {getOrders, useOrders} from "../data/storage";
+import {OrdersStorage} from "../data/storage";
 import {Events} from "../services/events";
 import {useSearchParams} from "react-router-dom";
+import {Order} from "../data/order";
 
 
 export default function MainScreen() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(parseInt(searchParams.get("page") || "0"));
     const [tab, setTab] = useState(parseInt(searchParams.get("tab") || "0"));
-    const [orders, setOrders] = useOrders();
+    const [orders, setOrders] = useState<Order[]>([]);
+
+    const loadOrders = useCallback(() => {
+        new OrdersStorage().list().then(setOrders);
+    }, [])
 
     useEffect(() => {
         searchParams.set("page", page.toString());
@@ -30,11 +35,12 @@ export default function MainScreen() {
     }, [searchParams, page, tab, setSearchParams]);
 
     useEffect(() => {
-        const onOrder = () => {
-            setOrders(getOrders());
-        };
-        Events.subscribe("order", onOrder);
-        return () => Events.unsubscribe("order", onOrder);
+        loadOrders();
+    }, [loadOrders]);
+
+    useEffect(() => {
+        Events.subscribe("order", loadOrders);
+        return () => Events.unsubscribe("order", loadOrders);
     });
 
     return (
