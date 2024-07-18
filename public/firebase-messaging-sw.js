@@ -82,6 +82,10 @@ messaging.onBackgroundMessage((message) => {
                     }).then((result) => {
                         console.log(result.data.text);
                     });
+                    return self.registration.showNotification(messageData.notification?.title || "New order", {
+                        body: messageData.notification?.body || "",
+                        icon: messageData.notification?.image || '/notification.icon.png',
+                    });
                 };
             })
         } else if (["order_confirmed", "order_ready", "order_done"].includes(messageData.type) && messageData.orderId) {
@@ -100,37 +104,14 @@ messaging.onBackgroundMessage((message) => {
                         order.status = "done";
                     }
                     store.put(order);
+                    return self.registration.showNotification(messageData.notification?.title || "Order update", {
+                        body: messageData.notification?.body || "",
+                        icon: messageData.notification?.image || '/notification.icon.png',
+                    }) ;
                 };
             })
         }
-
-        // switch (messageData.type) {
-        //     case "new_order":
-        //         title = "New Order";
-        //         body = "New Order";
-        //         url = "/?page=1";
-        //         break;
-        //     case "order_confirmed":
-        //         title = "Order confirmed";
-        //         body = `Your order was confirmed`;
-        //         url = `/order?id=${messageData.orderId}`;
-        //         break;
-        //     case "order_ready":
-        //         title = "Order is ready";
-        //         body = `Your order is ready for you to pick it up`;
-        //         url = `/order?id=${messageData.orderId}`;
-        //         break;
-        //     case "order_done":
-        //         title = "Order completed";
-        //         body = `Your order was picked up`;
-        //         url = `/`;
-        //         break;
-        // }
     }
-    //
-    // var notificationOptions = {
-    //     body: message.notification?.body || body,
-    //     icon: message.notification?.image || '/notification.icon.png',
-    // };
-    // self.registration.showNotification(message.notification?.title || title, notificationOptions);
+    // DON'T SHOW ANYTHING
+    return new Promise(function(resolve, reject) {});
 });

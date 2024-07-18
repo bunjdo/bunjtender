@@ -299,7 +299,8 @@ function CreateOrderButton(props: {item: MenuItem, states: MenuItemExtrasState})
             <DialogTitle>Order was not confirmed</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Your order was not confirmed in time. Please try again later.
+                    Your order was not confirmed in time.
+                    You either don't have notifications enabled or bar is not receiving orders at the moment.
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

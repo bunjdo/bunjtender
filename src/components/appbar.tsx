@@ -18,11 +18,13 @@ import {useContext} from "react";
 import {FirebaseServiceContext} from "../index";
 
 export function AppDrawer(props: {open: boolean, setOpen: (open: boolean) => void}) {
+    const firebaseService = useContext(FirebaseServiceContext);
     const [username, setUsername] = useUsername();
     let navigate = useNavigate();
 
     const logout = () => {
         setUsername("");
+        firebaseService?.unsubscribe();
         navigate("/signup");
     };
 

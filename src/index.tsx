@@ -16,6 +16,7 @@ import {MessagePayload} from "firebase/messaging";
 import {MessageData, getOrderNotification} from "./data/order";
 import {useAudio} from "./services/audio";
 import OrderScreen from "./screens/order";
+import {OkDialog} from "./components/dialogs";
 
 try {
     registerServiceWorker();
@@ -37,6 +38,7 @@ function App(props: {children: ReactElement}): ReactElement {
     const [topic, setTopic] = useTopic();
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [notificationDialogOpen, setNotificationDialogOpen] = useState(false);
+    const [noNotificationsDialogOpen, setNoNotificationsDialogOpen] = useState(false);
     const [, setPlaying] = useAudio("/notification.mp3");
 
     const firebaseService: FirebaseService | null = useMemo(() => {
@@ -99,37 +101,47 @@ function App(props: {children: ReactElement}): ReactElement {
             firebaseService.setupNotifications().then();
         }
 
-        if (!firebaseService?.isNotificationPermissionsGranted()) {
+        if (firebaseService?.isNotificationPermissionsDenied()) {
+            if (localStorage.getItem("noNotificationsDialogShown") !== "true") {
+                localStorage.setItem("noNotificationsDialogShown", "true");
+                setNoNotificationsDialogOpen(true);
+            }
+        } else if (firebaseService && !firebaseService?.isNotificationPermissionsGranted()) {
             setNotificationDialogOpen(true);
         }
     }, [firebaseService, location, name, navigate, onMessageCallback, searchParams, setName, setTopic, topic]);
 
     const onNotificationsDialogOk = async () => {
-        if (!firebaseService?.isNotificationPermissionsGranted()) {
+        if (firebaseService && !firebaseService?.isNotificationPermissionsGranted()) {
             await firebaseService?.setupNotifications();
         }
         setNotificationDialogOpen(false);
     };
 
+    const onNoNotificationsDialogOk = () => {
+        localStorage.setItem("noNotificationsDialogShown", "true");
+        setNoNotificationsDialogOpen(false);
+    };
+
     return <FirebaseServiceContext.Provider value={firebaseService}>
-        <Dialog
+        <OkDialog
             open={notificationDialogOpen}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+            title={"This app requires notifications permissions"}
+            buttonText={"Continue"}
+            action={onNotificationsDialogOk}
         >
-            <DialogTitle id="alert-dialog-title">This app requires notifications permissions</DialogTitle>
-            <DialogContent>
-                <DialogContentText id="alert-dialog-description">
-                    This app requires notifications permissions to work properly.
-                    Please allow notifications to continue.
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={onNotificationsDialogOk} autoFocus>
-                    Continue
-                </Button>
-            </DialogActions>
-        </Dialog>
+            This app requires notifications permissions to work properly.
+            Please allow notifications to continue.
+        </OkDialog>
+        <OkDialog
+            open={noNotificationsDialogOpen}
+            title={"This app requires notifications permissions"}
+            buttonText={"OK"}
+            action={onNoNotificationsDialogOk}
+        >
+            This app requires notifications to work properly, but notifications are unavailable or disabled.
+            You will not receive any order updates, including order confirmation.
+        </OkDialog>
         <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={Boolean(snackbarMessage)}

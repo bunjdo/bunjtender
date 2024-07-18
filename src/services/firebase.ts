@@ -85,7 +85,13 @@ export class FirebaseService {
     }
 
     isNotificationPermissionsGranted(): boolean {
+        console.log(Notification.permission);
         return Notification.permission === "granted";
+    }
+
+    isNotificationPermissionsDenied(): boolean {
+        console.log(Notification.permission);
+        return Notification.permission === "denied";
     }
 
     async setupNotifications(): Promise<void> {
@@ -96,13 +102,13 @@ export class FirebaseService {
                 const subscriptionTopic = localStorage.getItem("subscription") || "";
                 if (subscriptionTopic) {
                     localStorage.setItem("subscription", "");
-                    await this.unsubscribe(subscriptionTopic, token);
+                    await this.unsubscribe();
                 }
                 return;
             }
-            if ((localStorage.getItem("subscription") || "") !== `${this.topic}.${token}`) {
-                await this.subscribe(this.getTopicToSubscribe(), token);
-                localStorage.setItem("subscription", `${this.topic}.${token}`);
+            if ((localStorage.getItem("subscription") || "") !== `${this.getTopicToSubscribe()}.${token}`) {
+                localStorage.setItem("subscription", `${this.getTopicToSubscribe()}.${token}`);
+                await this.subscribe();
                 console.log('Subscribed to topic:', this.topic);
             } else {
                 console.log('Already subscribed to topic:', this.topic);
@@ -113,16 +119,19 @@ export class FirebaseService {
         }
     }
 
-    async subscribe(topic: string, token: string): Promise<any> {
+    async subscribe(): Promise<any> {
+        const [topic, token] = (localStorage.getItem("subscription") || ".").split(".", 2);
         console.log('Subscribing to topic:', topic);
         let response = await this.subscribeFirebaseFunction({topic, token})
         console.log('Successfully subscribed to topic:', topic);
         return response.data;
     }
 
-    async unsubscribe(topic: string, token: string): Promise<any> {
+    async unsubscribe(): Promise<any> {
+        const [topic, token] = (localStorage.getItem("subscription") || ".").split(".", 2);
         console.log('Unsubscribing from topic:', topic);
         let response = await this.unsubscribeFirebaseFunction({topic, token})
+        localStorage.setItem("subscription", "");
         console.log('Successfully unsubscribed from topic:', topic);
         return response.data;
     }
