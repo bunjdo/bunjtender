@@ -84,14 +84,22 @@ export class FirebaseService {
         return this.isBartender ? this.clientTopic: this.bartenderTopic;
     }
 
+    isSupported() {
+        return 'Notification' in window &&
+            'serviceWorker' in navigator &&
+            'PushManager' in window;
+    }
+
     isNotificationPermissionsGranted(): boolean {
-        console.log(Notification.permission);
-        return Notification.permission === "granted";
+        return this.isSupported() ?
+            Notification?.permission === "granted" :
+            false;
     }
 
     isNotificationPermissionsDenied(): boolean {
-        console.log(Notification.permission);
-        return Notification.permission === "denied";
+        return this.isSupported() ?
+            Notification?.permission === "denied" :
+            true;
     }
 
     async setupNotifications(): Promise<void> {
@@ -136,10 +144,9 @@ export class FirebaseService {
         return response.data;
     }
 
-    async send(topic: string, data: MessageData, notification?: NotificationData): Promise<any> {
-        const dataString = JSON.stringify(data);
+    async send(topic: string, data: MessageData, notification: NotificationData): Promise<any> {
         let response = await this.sendFirebaseFunction(
-            {topic: topic, notification: notification, data: {json: dataString}}
+            {topic: topic, data: {json: JSON.stringify(data), ...notification}}
         )
         return response.data;
     }

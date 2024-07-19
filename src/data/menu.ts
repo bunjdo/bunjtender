@@ -122,7 +122,7 @@ export const menu: Menu = {
             id: "65aedfcf-73d0-4787-b610-97224b1b1990",
             name: "Shirley temple",
             imageUrl: "/img/cocktails/shirley-temple.webp",
-            shortDescription: "Sweet, refreshing non-alcoholic drink",
+            shortDescription: "",
             longDescription: "ginger ale, lime juice, grenadine",
             recipe: `
 150ml ginger ale
@@ -139,7 +139,7 @@ top up with extra ale if needed, serve with cherry`,
             id: "13ca7ed9-d831-4c91-818b-d069d2d1d187",
             name: "Virgin mojito",
             imageUrl: "/img/cocktails/mojito.webp",
-            shortDescription: "Non-alcoholic long drink",
+            shortDescription: "",
             longDescription: "soda water, sugar, lime, mint",
             recipe: `
 soda water
@@ -155,7 +155,7 @@ mud sugar, lime and mint in glass, put ice and cover with soda, stir`,
             id: "79165b67-b74d-4027-a32c-a39137616e46",
             name: "Virgin Mary",
             imageUrl: "/img/cocktails/bloody-mary.webp",
-            shortDescription: "Long drink",
+            shortDescription: "",
             longDescription: "tomato juice, spices",
             recipe: `
 1 tsp salt

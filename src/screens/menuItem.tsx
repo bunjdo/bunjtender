@@ -299,8 +299,10 @@ function CreateOrderButton(props: {item: MenuItem, states: MenuItemExtrasState})
             <DialogTitle>Order was not confirmed</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    Your order was not confirmed in time.
-                    You either don't have notifications enabled or bar is not receiving orders at the moment.
+                    {firebaseService?.isNotificationPermissionsDenied() ?
+                        "Your order request was sent, but status updates are not available." :
+                        "Your order was not confirmed in time.\n You either don't have notifications enabled or bar is not receiving orders at the moment."
+                    }
                 </DialogContentText>
             </DialogContent>
             <DialogActions>

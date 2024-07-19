@@ -82,9 +82,9 @@ messaging.onBackgroundMessage((message) => {
                     }).then((result) => {
                         console.log(result.data.text);
                     });
-                    return self.registration.showNotification(messageData.notification?.title || "New order", {
-                        body: messageData.notification?.body || "",
-                        icon: messageData.notification?.image || '/notification.icon.png',
+                    return self.registration.showNotification(message.data?.title || "New order", {
+                        body: message.data?.body || "",
+                        icon: message.data?.image || '/notification.icon.png',
                     });
                 };
             })
@@ -104,14 +104,12 @@ messaging.onBackgroundMessage((message) => {
                         order.status = "done";
                     }
                     store.put(order);
-                    return self.registration.showNotification(messageData.notification?.title || "Order update", {
-                        body: messageData.notification?.body || "",
-                        icon: messageData.notification?.image || '/notification.icon.png',
+                    return self.registration.showNotification(message.data?.title || "Order update", {
+                        body: message.data?.body || "",
+                        icon: message.data?.image || '/notification.icon.png',
                     }) ;
                 };
             })
         }
     }
-    // DON'T SHOW ANYTHING
-    return new Promise(function(resolve, reject) {});
 });
