@@ -51,12 +51,39 @@ export const menu: Menu = {
         },
         {
             id: "b5070e42-918e-44a8-b459-04a9c690e707",
-            name: "Vegetarian stew",
-            imageUrl: "/img/food/stew.jpg",
+            name: "Rice bowl",
+            imageUrl: "/img/food/rice_bowl.webp",
             shortDescription: "",
-            longDescription: "mushrooms, potatoes, carrots, tomatoes, celery, beer",
-            extras: {},
-            features: ["vegetarian"],
+            longDescription: "rice, bowl",
+            extras: {
+                "spice-level": {
+                    name: "Spice level",
+                    type: "radio",
+                    items: ["Mild", "Medium", "Hot"],
+                },
+                "flavor-level": {
+                    name: "Flavor level",
+                    type: "radio",
+                    items: ["Tasty", "Vegetarian"],
+                },
+                "options": {
+                    name: "Options",
+                    type: "checklist",
+                    items: ["Extra rice", "Extra protein", "Extra vegetables"],
+                },
+                "i-am-picky": {
+                    name: "I am picky",
+                    type: "checklist",
+                    items: [
+                        "No Sprouted Bean Moochim",
+                        "No Cabbage Namul",
+                        "No Mushroom Bokkeum",
+                        "No Sausage Bokkeum",
+                        "No Yak Gochujang",
+                    ],
+                },
+            },
+            features: [],
         },
     ],
     "Soft drinks": [
@@ -97,6 +124,7 @@ export const menu: Menu = {
             longDescription: "",
             extras: {},
             features: [],
+            disabled: true,
         },
         {
             id: "0c600425-ba10-4b54-8071-23897cc6cddd",
@@ -186,6 +214,26 @@ shake & serve over ice`,
 2 slices of oranges
 
 shake, strain, serve over crushed ice`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "ec03ec9f-b44c-4d48-8334-76069066a17c",
+            name: "Old fashioned",
+            imageUrl: "/img/cocktails/old-fashioned.webp",
+            shortDescription: "On the rocks",
+            longDescription: "whiskey, bitters, soda water",
+            recipe: `
+2 tsp sugar syrup or 1 tsp granulated sugar
+1-2 dashes bitters
+splash of water
+60ml whisky
+splash of soda water (optional)
+orange slice
+
+Put the sugar, bitters and water in a small tumbler. Mix until the sugar dissolves if using granulated. 
+Fill your glass with ice and stir in the whisky. Add a splash of soda water if you like and mix.
+Garnish with orange slice`,
             extras: {},
             features: [],
         },
@@ -390,6 +438,20 @@ Lemon slice, to serve
 Mint sprig, to serve
 
 pour & stir over ice`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "207efc8b-1033-4a25-a75d-bb8924cd5528",
+            name: "Bellini",
+            imageUrl: "/img/cocktails/bellini.webp",
+            shortDescription: "Long drink",
+            longDescription: "prosecco, apple sauce",
+            recipe: `
+60ml peach puree
+120ml prosecco
+
+shake puree and 60ml of prosecco, strain and top up with the rest of prosecco`,
             extras: {},
             features: [],
         },
