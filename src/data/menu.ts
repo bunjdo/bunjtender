@@ -22,183 +22,71 @@ export interface MenuItem {
 export type Menu = Record<string, Array<MenuItem>>;
 
 export const menu: Menu = {
-    "Food": [
-        {
-            id: "01908b77-db90-792b-8fde-91b9ea9e06c0",
-            name: "Vegetarian stew",
-            imageUrl: "/img/food/stew.jpg",
-            shortDescription: "",
-            longDescription: "",
-            extras: {
-                "checklist": {
-                    name: "Checklist",
-                    type: "checklist",
-                    items: ["1", "2", "3", "4", "5", "6"],
-                },
-                "radio": {
-                    name: "Radio",
-                    type: "radio",
-                    items: ["1", "2", "3", "4", "5", "6"],
-                },
-                "checklist2": {
-                    name: "Checklist2",
-                    type: "checklist",
-                    items: ["1", "2", "3", "4", "5", "6"],
-                },
-            },
-            features: ["spicy", "vegetarian"],
-            disabled: true,
-        },
-        {
-            id: "b5070e42-918e-44a8-b459-04a9c690e707",
-            name: "Rice bowl",
-            imageUrl: "/img/food/rice_bowl.webp",
-            shortDescription: "",
-            longDescription: "rice, bowl",
-            extras: {
-                "spice-level": {
-                    name: "Spice level",
-                    type: "radio",
-                    items: ["Mild", "Medium", "Hot"],
-                },
-                "flavor-level": {
-                    name: "Flavor level",
-                    type: "radio",
-                    items: ["Tasty", "Vegetarian"],
-                },
-                "options": {
-                    name: "Options",
-                    type: "checklist",
-                    items: ["Extra rice", "Extra protein", "Extra vegetables"],
-                },
-                "i-am-picky": {
-                    name: "I am picky",
-                    type: "checklist",
-                    items: [
-                        "No Sprouted Bean Moochim",
-                        "No Cabbage Namul",
-                        "No Mushroom Bokkeum",
-                        "No Sausage Bokkeum",
-                        "No Yak Gochujang",
-                    ],
-                },
-            },
-            features: [],
-        },
-    ],
-    "Soft drinks": [
-        {
-            id: "fd12fa88-0ae8-4709-952d-d59bc99bc146",
-            name: "Water",
-            imageUrl: null,
-            shortDescription: "Still water",
-            longDescription: "",
-            extras: {},
-            features: [],
-        },
-        {
-            id: "63ee7119-664e-42aa-98c5-25d4fa7a6c42",
-            name: "Soda water",
-            imageUrl: null,
-            shortDescription: "",
-            longDescription: "",
-            extras: {},
-            features: [],
-        },
-        {
-            id: "187ef274-6610-4640-9dec-aa5c556b8e23",
-            name: "Coke",
-            imageUrl: null,
-            shortDescription: "",
-            longDescription: "",
-            extras: {},
-            features: [],
-        },
-    ],
-    "Wine & Beer": [
-        {
-            id: "1a3a5799-d389-474b-a137-131bb96321d6",
-            name: "Beer",
-            imageUrl: "/img/beverages/beer.jpg",
-            shortDescription: "Bottled beer",
-            longDescription: "",
-            extras: {},
-            features: [],
-            disabled: true,
-        },
-        {
-            id: "0c600425-ba10-4b54-8071-23897cc6cddd",
-            name: "White wine",
-            imageUrl: "/img/beverages/white-wine.jpg",
-            shortDescription: "",
-            longDescription: "",
-            extras: {},
-            features: [],
-        },
-        {
-            id: "24e32caa-afb4-4d8f-9970-00c7e5b902fd",
-            name: "Red wine",
-            imageUrl: "/img/beverages/red-whine.jpg",
-            shortDescription: "",
-            longDescription: "",
-            extras: {},
-            features: [],
-        },
-    ],
-    "Mocktails": [
-        {
-            id: "65aedfcf-73d0-4787-b610-97224b1b1990",
-            name: "Shirley temple",
-            imageUrl: "/img/cocktails/shirley-temple.webp",
-            shortDescription: "",
-            longDescription: "ginger ale, lime juice, grenadine",
-            recipe: `
-150ml ginger ale
-25ml lime juice
-15ml grenadine
-1 maraschino cherry
-
-pour ginger ale and lime juice into glass with ice, slowly add grenadine
-top up with extra ale if needed, serve with cherry`,
-            extras: {},
-            features: [],
-        },
-        {
-            id: "13ca7ed9-d831-4c91-818b-d069d2d1d187",
-            name: "Virgin mojito",
-            imageUrl: "/img/cocktails/mojito.webp",
-            shortDescription: "",
-            longDescription: "soda water, sugar, lime, mint",
-            recipe: `
-soda water
-1 tbsp sugar
-mint
-1/2 lime
-
-mud sugar, lime and mint in glass, put ice and cover with soda, stir`,
-            extras: {},
-            features: [],
-        },
-        {
-            id: "79165b67-b74d-4027-a32c-a39137616e46",
-            name: "Virgin Mary",
-            imageUrl: "/img/cocktails/bloody-mary.webp",
-            shortDescription: "",
-            longDescription: "tomato juice, spices",
-            recipe: `
-1 tsp salt
-120ml tomato juice
-10ml lemon juice
-2 dashes Tabasco sauce
-2 dashes Worcestershire sauce
-1 pinch ground black pepper
-1 pinch smoked paprika 
-
-shake & serve over ice`,
-            extras: {},
-            features: [],
-        },
-    ],
+    // "Food": [
+    //     {
+    //         id: "01908b77-db90-792b-8fde-91b9ea9e06c0",
+    //         name: "Vegetarian stew",
+    //         imageUrl: "/img/food/stew.jpg",
+    //         shortDescription: "",
+    //         longDescription: "",
+    //         extras: {
+    //             "checklist": {
+    //                 name: "Checklist",
+    //                 type: "checklist",
+    //                 items: ["1", "2", "3", "4", "5", "6"],
+    //             },
+    //             "radio": {
+    //                 name: "Radio",
+    //                 type: "radio",
+    //                 items: ["1", "2", "3", "4", "5", "6"],
+    //             },
+    //             "checklist2": {
+    //                 name: "Checklist2",
+    //                 type: "checklist",
+    //                 items: ["1", "2", "3", "4", "5", "6"],
+    //             },
+    //         },
+    //         features: ["spicy", "vegetarian"],
+    //         disabled: true,
+    //     },
+    //     {
+    //         id: "b5070e42-918e-44a8-b459-04a9c690e707",
+    //         name: "Rice bowl",
+    //         imageUrl: "/img/food/rice_bowl.webp",
+    //         shortDescription: "",
+    //         longDescription: "rice, bowl",
+    //         extras: {
+    //             "spice-level": {
+    //                 name: "Spice level",
+    //                 type: "radio",
+    //                 items: ["Mild", "Medium", "Hot"],
+    //             },
+    //             "flavor-level": {
+    //                 name: "Flavor level",
+    //                 type: "radio",
+    //                 items: ["Tasty", "Vegetarian"],
+    //             },
+    //             "options": {
+    //                 name: "Options",
+    //                 type: "checklist",
+    //                 items: ["Extra rice", "Extra protein", "Extra vegetables"],
+    //             },
+    //             "i-am-picky": {
+    //                 name: "I am picky",
+    //                 type: "checklist",
+    //                 items: [
+    //                     "No Sprouted Bean Moochim",
+    //                     "No Cabbage Namul",
+    //                     "No Mushroom Bokkeum",
+    //                     "No Sausage Bokkeum",
+    //                     "No Yak Gochujang",
+    //                 ],
+    //             },
+    //         },
+    //         features: [],
+    //         disabled: true,
+    //     },
+    // ],
     "Cocktails": [
         {
             id: "5123d586-b55e-4b7e-89eb-5a9483f06d03",
@@ -300,6 +188,7 @@ pour & stir over ice`,
 pour & stir over crushed ice`,
             extras: {},
             features: [],
+            disabled: true,
         },
         {
             id: "b78d1050-0a66-4f88-9de7-6abc4b7df23f",
@@ -336,26 +225,6 @@ pour & stir over ice`,
             features: [],
         },
         {
-            id: "79165b67-b74d-4027-a32c-a39137616e46",
-            name: "Bloody Mary",
-            imageUrl: "/img/cocktails/bloody-mary.webp",
-            shortDescription: "Long drink",
-            longDescription: "vodka, tomato juice, spices",
-            recipe: `
-1 tsp salt
-50ml vodka
-120ml tomato juice
-10ml lemon juice
-2 dashes Tabasco sauce
-2 dashes Worcestershire sauce
-1 pinch ground black pepper
-1 pinch smoked paprika 
-
-shake & serve over ice`,
-            extras: {},
-            features: [],
-        },
-        {
             id: "6e3c5c41-755a-4ee9-89b5-80f30ffde9d9",
             name: "Margarita",
             imageUrl: "/img/cocktails/margarita.webp",
@@ -372,6 +241,7 @@ put salt on the edge of the glass
 shake & strain, put 1 slice of lime into the glass and one on the edge`,
             extras: {},
             features: [],
+            disabled: true,
         },
         {
             id: "1c2c9aa8-2447-4463-b0c5-f0636d6b0bfd",
@@ -388,6 +258,7 @@ lime slice for garnish
 pour & stir over ice`,
             extras: {},
             features: [],
+            disabled: true,
         },
         {
             id: "060f08d8-f7c9-4880-a052-1e9968e3b2f9",
@@ -407,6 +278,7 @@ shake everything and strain into glass
 add orange slice & ice/orange juice till full`,
             extras: {},
             features: [],
+            disabled: true,
         },
         {
             id: "23d61d48-f805-4a1c-91a9-fc5f37431d39",
@@ -441,21 +313,106 @@ pour & stir over ice`,
             extras: {},
             features: [],
         },
+    ],
+    "Mocktails": [
         {
-            id: "207efc8b-1033-4a25-a75d-bb8924cd5528",
-            name: "Bellini",
-            imageUrl: "/img/cocktails/bellini.webp",
-            shortDescription: "Long drink",
-            longDescription: "prosecco, apple sauce",
+            id: "65aedfcf-73d0-4787-b610-97224b1b1990",
+            name: "Shirley temple",
+            imageUrl: "/img/cocktails/shirley-temple.webp",
+            shortDescription: "",
+            longDescription: "ginger ale, lime juice, grenadine",
             recipe: `
-60ml peach puree
-120ml prosecco
+150ml ginger ale
+25ml lime juice
+15ml grenadine
+1 maraschino cherry
 
-shake puree and 60ml of prosecco, strain and top up with the rest of prosecco`,
+pour ginger ale and lime juice into glass with ice, slowly add grenadine
+top up with extra ale if needed, serve with cherry`,
+            extras: {},
+            features: [],
+        },
+        {
+            id: "13ca7ed9-d831-4c91-818b-d069d2d1d187",
+            name: "Virgin mojito",
+            imageUrl: "/img/cocktails/mojito.webp",
+            shortDescription: "",
+            longDescription: "soda water, sugar, lime, mint",
+            recipe: `
+soda water
+1 tbsp sugar
+mint
+1/2 lime
+
+mud sugar, lime and mint in glass, put ice and cover with soda, stir`,
             extras: {},
             features: [],
         },
     ],
+    // "Wine & Beer": [
+    //     {
+    //         id: "1a3a5799-d389-474b-a137-131bb96321d6",
+    //         name: "Beer",
+    //         imageUrl: "/img/beverages/beer.jpg",
+    //         shortDescription: "Bottled beer",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    //     {
+    //         id: "0c600425-ba10-4b54-8071-23897cc6cddd",
+    //         name: "White wine",
+    //         imageUrl: "/img/beverages/white-wine.jpg",
+    //         shortDescription: "",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    //     {
+    //         id: "24e32caa-afb4-4d8f-9970-00c7e5b902fd",
+    //         name: "Red wine",
+    //         imageUrl: "/img/beverages/red-whine.jpg",
+    //         shortDescription: "",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    // ],
+    // "Soft drinks": [
+    //     {
+    //         id: "fd12fa88-0ae8-4709-952d-d59bc99bc146",
+    //         name: "Water",
+    //         imageUrl: null,
+    //         shortDescription: "Still water",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    //     {
+    //         id: "63ee7119-664e-42aa-98c5-25d4fa7a6c42",
+    //         name: "Soda water",
+    //         imageUrl: null,
+    //         shortDescription: "",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    //     {
+    //         id: "187ef274-6610-4640-9dec-aa5c556b8e23",
+    //         name: "Coke",
+    //         imageUrl: null,
+    //         shortDescription: "",
+    //         longDescription: "",
+    //         extras: {},
+    //         features: [],
+    //         disabled: true,
+    //     },
+    // ],
 }
 
 export const menuItems: Record<string, MenuItem> = Object.fromEntries(
